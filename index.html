@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="NIT Tech — Networking, Internet Technologies, Projects and Job Discovery for NIT Technicians.">
+  <title>NIT Tech | Discover. Build. Connect.</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    :root {
+      --bg: #07111f;
+      --bg2: #0b1728;
+      --card: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.12);
+      --text: #f5f8ff;
+      --muted: #aab8cc;
+      --blue: #4da3ff;
+      --cyan: #4de8ff;
+      --green: #48e0a4;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(77,163,255,.15), transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(77,232,255,.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* NETWORK BACKGROUND */
+    #network {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      opacity: .35;
+    }
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 45px 45px;
+      pointer-events: none;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(18px);
+      background: rgba(7,17,31,.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 18px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .logo span {
+      color: var(--cyan);
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: .3s;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .menu {
+      display: none;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      max-width: 1200px;
+      margin: auto;
+      padding: 160px 25px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 50px;
+    }
+
+    .hero-text {
+      max-width: 650px;
+      animation: heroIn 1s ease;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 9px 15px;
+      border: 1px solid rgba(77,232,255,.3);
+      border-radius: 50px;
+      background: rgba(77,232,255,.08);
+      color: var(--cyan);
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(45px, 7vw, 82px);
+      line-height: .95;
+      margin-bottom: 25px;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 17px;
+      max-width: 600px;
+      margin-bottom: 32px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: .3s;
+      border: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .primary {
+      background: linear-gradient(135deg, #328eff, #38d9ff);
+      color: white;
+      box-shadow: 0 10px 30px rgba(50,142,255,.25);
+    }
+
+    .secondary {
+      color: white;
+      background: rgba(255,255,255,.05);
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+    }
+
+    /* HERO CARD */
+    .hero-card {
+      width: 380px;
+      min-height: 390px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.045);
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      padding: 30px;
+      box-shadow: 0 25px 70px rgba(0,0,0,.25);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .terminal {
+      color: var(--green);
+      font-family: monospace;
+      margin-bottom: 25px;
+    }
+
+    .terminal-line {
+      margin: 14px 0;
+      color: #b8c7da;
+    }
+
+    .terminal-line span {
+      color: var(--cyan);
+    }
+
+    .signal {
+      height: 150px;
+      display: flex;
+      align-items: end;
+      gap: 8px;
+    }
+
+    .bar {
+      flex: 1;
+      background: linear-gradient(to top, var(--blue), var(--cyan));
+      border-radius: 5px 5px 0 0;
+      animation: bars 1.5s infinite alternate;
+    }
+
+    .bar:nth-child(1) {height: 30%;}
+    .bar:nth-child(2) {height: 55%; animation-delay:.2s;}
+    .bar:nth-child(3) {height: 80%; animation-delay:.4s;}
+    .bar:nth-child(4) {height: 45%; animation-delay:.6s;}
+    .bar:nth-child(5) {height: 90%; animation-delay:.8s;}
+    .bar:nth-child(6) {height: 65%; animation-delay:1s;}
+
+    section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 100px 25px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 55px;
+    }
+
+    .section-title h2 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+    /* FEATURES */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      transition: .4s;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(77,232,255,.4);
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+    }
+
+    .icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* JOB DISCOVERY */
+    .jobs {
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 35px;
+    }
+
+    .job-search {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    .job-search input,
+    .job-search select {
+      flex: 1;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #101e31;
+      color: white;
+      outline: none;
+    }
+
+    .job-list {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 18px;
+    }
+
+    .job {
+      padding: 23px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: .3s;
+    }
+
+    .job:hover {
+      transform: scale(1.02);
+    }
+
+    .job h3 {
+      margin-bottom: 8px;
+    }
+
+    .job p {
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 20px;
+      background: rgba(77,163,255,.12);
+      color: var(--cyan);
+    }
+
+    /* PROJECTS */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 20px;
+    }
+
+    .project {
+      min-height: 230px;
+      padding: 28px;
+      border-radius: 20px;
+      background: linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.025));
+      border: 1px solid var(--border);
+      transition: .4s;
+    }
+
+    .project:hover {
+      transform: translateY(-7px);
+    }
+
+    .project p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 20px;
+    }
+
+    .stat {
+      text-align: center;
+      padding: 28px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 38px;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+
+    .stat span {
+      color: var(--muted);
+    }
+
+    /* LIKE */
+    .community {
+      text-align: center;
+      padding: 80px 25px;
+      background: linear-gradient(135deg, rgba(50,142,255,.12), rgba(77,232,255,.06));
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .like-btn {
+      margin-top: 25px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: white;
+      padding: 13px 22px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: .3s;
+    }
+
+    .like-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 45px 25px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    /* REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: 1s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ANIMATIONS */
+    @keyframes heroIn {
+      from {opacity:0; transform:translateY(30px);}
+      to {opacity:1; transform:translateY(0);}
+    }
+
+    @keyframes float {
+      0%,100% {transform:translateY(0);}
+      50% {transform:translateY(-12px);}
+    }
+
+    @keyframes bars {
+      from {opacity:.5;}
+      to {opacity:1;}
+    }
+
+    /* MOBILE */
+    @media(max-width:800px) {
+
+      nav ul {
+        display:none;
+        position:absolute;
+        top:70px;
+        left:0;
+        width:100%;
+        background:#081322;
+        flex-direction:column;
+        padding:25px;
+      }
+
+      nav ul.show {
+        display:flex;
+      }
+
+      .menu {
+        display:block;
+      }
+
+      .hero {
+        flex-direction:column;
+        text-align:center;
+      }
+
+      .hero p {
+        margin-left:auto;
+        margin-right:auto;
+      }
+
+      .buttons {
+        justify-content:center;
+      }
+
+      .hero-card {
+        width:100%;
+        max-width:400px;
+      }
+
+      .cards,
+      .project-grid,
+      .job-list {
+        grid-template-columns:1fr;
+      }
+
+      .stats {
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .job-search {
+        flex-direction:column;
+      }
+    }
+
+    @media(max-width:450px) {
+      .stats {
+        grid-template-columns:1fr;
+      }
+
+      h1 {
+        font-size:48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="network"></div>
+<div class="grid"></div>
+
+<header>
+  <nav>
+    <div class="logo">NIT<span>TECH</span> ⚡</div>
+
+    <div class="menu" onclick="toggleMenu()">☰</div>
+
+    <ul id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#discover">Discover</a></li>
+      <li><a href="#jobs">Jobs</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#community">Community</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+
+    <div class="hero-text">
+      <div class="badge">🌐 NETWORKING • INTERNET • TECHNOLOGY</div>
+
+      <h1>
+        Build the <span>Future</span><br>
+        With NIT Tech.
+      </h1>
+
+      <p>
+        A digital space for NIT technicians to discover technology,
+        build practical projects, connect with opportunities and
+        explore jobs in networking and internet technologies.
+      </p>
+
+      <div class="buttons">
+        <a href="#jobs" class="btn primary">🔎 Discover Jobs</a>
+        <a href="#projects" class="btn secondary">🚀 Explore Projects</a>
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="terminal">
+        NIT@TECH:~$ connect
+      </div>
+
+      <div class="terminal-line">
+        <span>✓</span> Network connected
+      </div>
+
+      <div class="terminal-line">
+        <span>✓</span> Skills loading...
+      </div>
+
+      <div class="terminal-line">
+        <span>✓</span> Opportunities found
+      </div>
+
+      <div class="terminal-line">
+        <span>✓</span> Future initialized
+      </div>
+
+      <div class="signal">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- DISCOVER -->
+  <section id="discover" class="reveal">
+
+    <div class="section-title">
+      <h2>Discover NIT Tech</h2>
+      <p>Learn. Build. Connect. Grow.</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">🌐</div>
+        <h3>Networking</h3>
+        <p>
+          Explore computer networks, routing, switching,
+          IP addressing, wireless technologies and network security.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">💻</div>
+        <h3>Internet Technologies</h3>
+        <p>
+          Understand how websites, servers, DNS, cloud services
+          and modern internet infrastructure work.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🚀</div>
+        <h3>Innovation</h3>
+        <p>
+          Turn your technical knowledge into useful projects
+          that solve real-world problems.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- JOBS -->
+  <section id="jobs" class="reveal">
+
+    <div class="section-title">
+      <h2>🔎 Job Discovery</h2>
+      <p>Find opportunities that match your NIT skills.</p>
+    </div>
+
+    <div class="jobs">
+
+      <div class="job-search">
+        <input
+          type="text"
+          id="jobSearch"
+          placeholder="Search jobs... e.g. Network Technician"
+          onkeyup="filterJobs()"
+        >
+
+        <select id="jobCategory" onchange="filterJobs()">
+          <option value="all">All Categories</option>
+          <option value="network">Networking</option>
+          <option value="it">IT Support</option>
+          <option value="web">Web</option>
+        </select>
+      </div>
+
+      <div class="job-list" id="jobList">
+
+        <div class="job" data-category="network">
+          <h3>Network Technician</h3>
+          <p>Install, maintain and troubleshoot network infrastructure.</p>
+          <span class="tag">Networking</span>
+        </div>
+
+        <div class="job" data-category="it">
+          <h3>IT Support Technician</h3>
+          <p>Help organizations solve hardware and software problems.</p>
+          <span class="tag">IT Support</span>
+        </div>
+
+        <div class="job" data-category="network">
+          <h3>Network Administrator</h3>
+          <p>Monitor and maintain organizational network systems.</p>
+          <span class="tag">Networking</span>
+        </div>
+
+        <div class="job" data-category="web">
+          <h3>Junior Web Developer</h3>
+          <p>Create and maintain modern websites and web applications.</p>
+          <span class="tag">Web</span>
+        </div>
+
+        <div class="job" data-category="it">
+          <h3>Technical Support</h3>
+          <p>Provide technical assistance to users and organizations.</p>
+          <span class="tag">IT Support</span>
+        </div>
+
+        <div class="job" data-category="network">
+          <h3>Network Security Assistant</h3>
+          <p>Assist with monitoring and protecting network infrastructure.</p>
+          <span class="tag">Networking</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="reveal">
+
+    <div class="section-title">
+      <h2>⚡ Tech Projects</h2>
+      <p>Ideas become powerful when you build them.</p>
+    </div>
+
+    <div class="project-grid">
+
+      <div class="project">
+        <h3>🌐 Smart Network</h3>
+        <p>
+          Design a practical network infrastructure for schools,
+          businesses and organizations.
+        </p>
+      </div>
+
+      <div class="project">
+        <h3>📡 Wi-Fi Management</h3>
+        <p>
+          Build a system for monitoring users, bandwidth and
+          wireless network performance.
+        </p>
+      </div>
+
+      <div class="project">
+        <h3>☁️ Cloud Platform</h3>
+        <p>
+          Explore cloud-based services and modern infrastructure
+          for digital organizations.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="reveal">
+
+    <div class="stats">
+
+      <div class="stat">
+        <strong>01</strong>
+        <span>Tech Community</span>
+      </div>
+
+      <div class="stat">
+        <strong>∞</strong>
+        <span>Learning Opportunities</span>
+      </div>
+
+      <div class="stat">
+        <strong>24/7</strong>
+        <span>Innovation</span>
+      </div>
+
+      <div class="stat">
+        <strong>100%</strong>
+        <span>Future Focused</span>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- COMMUNITY -->
+<div class="community reveal" id="community">
+
+  <h2>❤️ Enjoying NIT Tech?</h2>
+
+  <p style="color:#aab8cc;margin-top:12px;">
+    Show some love and help us grow the community.
+  </p>
+
+  <button class="like-btn" onclick="likeWebsite()">
+    ❤️ Like <span id="likeCount">0</span>
+  </button>
+
+</div>
+
+<footer>
+  <strong>NIT TECH ⚡</strong>
+  <br><br>
+  Networking • Internet Technologies • Innovation • Jobs
+  <br><br>
+  © 2026 NIT Tech. Built for the future.
+</footer>
+
+<script>
+
+  /* MOBILE MENU */
+  function toggleMenu() {
+    document.getElementById("navLinks").classList.toggle("show");
+  }
+
+  /* LIKE */
+  let likes = Number(localStorage.getItem("nitLikes")) || 0;
+
+  document.getElementById("likeCount").textContent = likes;
+
+  function likeWebsite() {
+    likes++;
+    document.getElementById("likeCount").textContent = likes;
+    localStorage.setItem("nitLikes", likes);
+  }
+
+  /* JOB SEARCH */
+  function filterJobs() {
+
+    const search =
+      document.getElementById("jobSearch").value.toLowerCase();
+
+    const category =
+      document.getElementById("jobCategory").value;
+
+    const jobs =
+      document.querySelectorAll(".job");
+
+    jobs.forEach(job => {
+
+      const text = job.innerText.toLowerCase();
+      const jobCategory = job.dataset.category;
+
+      const matchesSearch = text.includes(search);
+
+      const matchesCategory =
+        category === "all" || jobCategory === category;
+
+      if (matchesSearch && matchesCategory) {
+        job.style.display = "block";
+      } else {
+        job.style.display = "none";
+      }
+
+    });
+  }
+
+  /* SCROLL REVEAL */
+  const reveals = document.querySelectorAll(".reveal");
+
+  function revealOnScroll() {
+
+    reveals.forEach(element => {
+
+      const windowHeight = window.innerHeight;
+      const elementTop =
+        element.getBoundingClientRect().top;
+
+      if (elementTop < windowHeight - 100) {
+        element.classList.add("active");
+      }
+
+    });
+  }
+
+  window.addEventListener("scroll", revealOnScroll);
+  revealOnScroll();
+
+  /* NETWORK BACKGROUND */
+  const canvas = document.createElement("canvas");
+
+  canvas.style.position = "fixed";
+  canvas.style.inset = "0";
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.pointerEvents = "none";
+
+  document.getElementById("network").appendChild(canvas);
+
+  const ctx = canvas.getContext("2d");
+
+  let particles = [];
+
+  function resizeCanvas() {
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    particles = [];
+
+    const count =
+      Math.min(70, Math.floor(window.innerWidth / 15));
+
+    for (let i = 0; i < count; i++) {
+
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - .5) * .4,
+        vy: (Math.random() - .5) * .4,
+        r: Math.random() * 2 + 1
+      });
+
+    }
+  }
+
+  function animateNetwork() {
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    particles.forEach(p => {
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle = "rgba(77,232,255,.7)";
+      ctx.fill();
+
+    });
+
+    for (let i = 0; i < particles.length; i++) {
+
+      for (let j = i + 1; j < particles.length; j++) {
+
+        const dx =
+          particles[i].x - particles[j].x;
+
+        const dy =
+          particles[i].y - particles[j].y;
+
+        const distance =
+          Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 130) {
+
+          ctx.beginPath();
+
+          ctx.moveTo(
+            particles[i].x,
+            particles[i].y
+          );
+
+          ctx.lineTo(
+            particles[j].x,
+            particles[j].y
+          );
+
+          ctx.strokeStyle =
+            "rgba(77,163,255," +
+            (1 - distance / 130) * .35 +
+            ")";
+
+          ctx.lineWidth = .7;
+
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(animateNetwork);
+  }
+
+  window.addEventListener("resize", resizeCanvas);
+
+  resizeCanvas();
+  animateNetwork();
+
+</script>
+
+</body>
+</html>
