@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <head>
-    <link rel="icon" type="image/png" href="images/logo.png">
-</head>
+  <link rel="icon" type="image/png" href="images/logo.png">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="NIT Tech Iaa_Glory — Networking, Internet Technologies, Projects and Job Discovery for NIT Technicians.">
@@ -432,7 +431,182 @@
     .like-btn:hover {
       transform: scale(1.05);
     }
+    /* CONTACT */
+.contact-section {
+  max-width: 1200px;
+  margin: auto;
+  padding: 100px 25px;
+}
 
+.contact-wrapper {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 30px;
+  align-items: stretch;
+}
+
+.contact-info,
+.contact-form {
+  background: rgba(255,255,255,.055);
+  border: 1px solid var(--border);
+  border-radius: 25px;
+  padding: 32px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.18);
+}
+
+.contact-info h3 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.contact-info > p {
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 25px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 17px;
+  margin-top: 14px;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  background: rgba(255,255,255,.035);
+  transition: .3s;
+}
+
+.contact-item:hover {
+  transform: translateX(7px);
+  border-color: rgba(77,232,255,.45);
+}
+
+.contact-item-icon {
+  font-size: 25px;
+}
+
+.contact-item strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.contact-item span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.contact-form {
+  position: relative;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #dce7f5;
+}
+
+.input-group input,
+.input-group textarea {
+  width: 100%;
+  padding: 15px 17px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  outline: none;
+  background: rgba(7,17,31,.8);
+  color: white;
+  font-family: inherit;
+  font-size: 15px;
+  transition: .3s;
+}
+
+.input-group textarea {
+  resize: vertical;
+  min-height: 145px;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(77,232,255,.08);
+}
+
+.send-btn {
+  width: 100%;
+  border: none;
+  padding: 16px;
+  border-radius: 13px;
+  cursor: pointer;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #328eff, #38d9ff);
+  box-shadow: 0 10px 30px rgba(50,142,255,.2);
+  transition: .3s;
+}
+
+.send-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(50,142,255,.3);
+}
+
+.send-btn:disabled {
+  cursor: not-allowed;
+  opacity: .8;
+}
+
+.btn-loader {
+  display: none;
+  width: 18px;
+  height: 18px;
+  margin-left: 8px;
+  vertical-align: middle;
+  border: 2px solid rgba(255,255,255,.35);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+.form-status {
+  display: none;
+  margin-top: 15px;
+  padding: 13px;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.form-status.success {
+  display: block;
+  background: rgba(72,224,164,.1);
+  border: 1px solid rgba(72,224,164,.3);
+  color: var(--green);
+}
+
+.form-status.error {
+  display: block;
+  background: rgba(255,70,70,.1);
+  border: 1px solid rgba(255,70,70,.3);
+  color: #ff8585;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media(max-width:800px) {
+  .contact-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
     /* FOOTER */
     footer {
       padding: 45px 25px;
@@ -547,7 +721,7 @@
 
 <header>
   <nav>
-    <div class="logo">NIT<span>TECH</span>Iraa ⚡</div>
+    <div class="logo">NIT<span>TECH</span>IRAA⚡</div>
 
     <div class="menu" onclick="toggleMenu()">☰</div>
 
@@ -557,6 +731,7 @@
       <li><a href="#jobs">Jobs</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#community">Community</a></li>
+      <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 </header>
@@ -571,7 +746,7 @@
 
       <h1>
         Build the <span>Future</span><br>
-        With NIT Tech.
+        With Tech IRAA
       </h1>
 
       <p>
@@ -792,7 +967,97 @@
 
     </div>
   </section>
+<!-- CONTACT -->
+<section class="contact-section reveal" id="contact">
 
+  <div class="section-title">
+    <h2>📩 Let's Connect</h2>
+    <p>Have an idea, question or technology project? Send a message.</p>
+  </div>
+
+  <div class="contact-wrapper">
+
+    <div class="contact-info">
+
+      <h3>Let's build something amazing. 🚀</h3>
+
+      <p>
+        Have a project idea, networking question or technology topic
+        you want to explore? Send a message and connect with NIT TECH.
+      </p>
+
+      <div class="contact-item">
+        <div class="contact-item-icon">🌐</div>
+        <div>
+          <strong>Focus</strong>
+          <span>Networking & Internet Technologies</span>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-item-icon">💻</div>
+        <div>
+          <strong>Creator</strong>
+          <span>Glory Iraa</span>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-item-icon">🚀</div>
+        <div>
+          <strong>Mission</strong>
+          <span>Learn • Build • Share • Innovate</span>
+        </div>
+      </div>
+
+    </div>
+
+    <form id="contact-form" class="contact-form">
+
+      <div class="input-group">
+        <label for="user_name">Your Name</label>
+        <input
+          type="text"
+          id="user_name"
+          name="user_name"
+          placeholder="Enter your name"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="user_email">Your Email</label>
+        <input
+          type="email"
+          id="user_email"
+          name="user_email"
+          placeholder="Enter your email"
+          required
+        >
+      </div>
+
+      <div class="input-group">
+        <label for="message">Your Message</label>
+        <textarea
+          id="message"
+          name="message"
+          placeholder="Write your message..."
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="send-btn" id="send-btn">
+        <span id="btn-text">Send Message 🚀</span>
+        <span id="btn-loader" class="btn-loader"></span>
+      </button>
+
+      <div id="form-status" class="form-status"></div>
+
+    </form>
+
+  </div>
+
+</section>
 </main>
 
 <!-- COMMUNITY -->
