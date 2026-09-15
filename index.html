@@ -1258,7 +1258,69 @@
 
   resizeCanvas();
   animateNetwork();
+/* CONTACT FORM - EMAILJS */
 
+emailjs.init({
+  publicKey: "v6PTJk7W9x8YPxedw"
+});
+
+const contactForm = document.getElementById("contact-form");
+const sendBtn = document.getElementById("send-btn");
+const btnText = document.getElementById("btn-text");
+const btnLoader = document.getElementById("btn-loader");
+const formStatus = document.getElementById("form-status");
+
+contactForm.addEventListener("submit", function(event) {
+
+  event.preventDefault();
+
+  sendBtn.disabled = true;
+  btnText.textContent = "Sending...";
+  btnLoader.style.display = "inline-block";
+
+  formStatus.className = "form-status";
+  formStatus.textContent = "";
+
+  emailjs.sendForm(
+    "service_me8dqtj",
+    "template_ac1q51r",
+    contactForm
+  )
+
+  .then(function() {
+
+    btnText.textContent = "Message Sent ✓";
+    btnLoader.style.display = "none";
+
+    formStatus.className = "form-status success";
+    formStatus.textContent =
+      "Your message has been sent successfully. Thank you for contacting NIT TECH!";
+
+    contactForm.reset();
+
+    setTimeout(function() {
+      sendBtn.disabled = false;
+      btnText.textContent = "Send Message 🚀";
+    }, 2500);
+
+  })
+
+  .catch(function(error) {
+
+    console.error("EmailJS Error:", error);
+
+    btnText.textContent = "Try Again";
+    btnLoader.style.display = "none";
+
+    formStatus.className = "form-status error";
+    formStatus.textContent =
+      "❌ Failed to send. Something went wrong. Please try again.";
+
+    sendBtn.disabled = false;
+
+  });
+
+});
 </script>
 
 </body>
