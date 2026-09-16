@@ -342,31 +342,159 @@
       box-shadow: 0 0 12px #00d9ff;
     }
 
-    .hero h1 {
-      font-size: clamp(3rem, 7vw, 6.4rem);
-      line-height: 0.95;
-      letter-spacing: -4px;
+    /* =========================================
+   NIT TECH IRAA
+   BUILD • CONNECT • INNOVATE
+========================================= */
 
-      margin-bottom: 25px;
+.hero-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 
-      color: #ffffff;
-    }
+  gap: 0.18em 0.32em;
+  margin-bottom: 25px;
 
-    .hero h1 span {
-      display: block;
+  font-size: clamp(3rem, 7vw, 6.4rem);
+  line-height: 0.95;
+  font-weight: 900;
+  letter-spacing: -0.055em;
 
-      background:
-        linear-gradient(
-          90deg,
-          #00d9ff,
-          #65a9ff,
-          #8b5cff
-        );
+  color: #ffffff;
+  perspective: 1000px;
+}
 
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+.hero-title .word {
+  position: relative;
+  display: inline-block;
+
+  opacity: 0;
+  transform: translateY(45px) rotateX(65deg) scale(0.88);
+
+  animation: heroWordIn 1s cubic-bezier(.16, 1, .3, 1) forwards;
+
+  will-change: transform, opacity, filter;
+
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.word-build {
+  animation-delay: 0.1s;
+  color: #ffffff;
+}
+
+.word-connect {
+  color: transparent;
+
+  background: linear-gradient(
+    90deg,
+    #00d9ff,
+    #65a9ff,
+    #8b5cff,
+    #00d9ff
+  );
+
+  background-size: 300% 100%;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  animation:
+    heroWordIn 1s cubic-bezier(.16, 1, .3, 1) 0.3s forwards,
+    connectGradient 5s ease-in-out 1.3s infinite;
+}
+
+.word-innovate {
+  color: #ffffff;
+}
+
+.word-innovate::after {
+  content: "";
+
+  position: absolute;
+
+  left: 4%;
+  bottom: -0.13em;
+
+  width: 92%;
+  height: 4px;
+
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    #00d9ff,
+    #65a9ff,
+    #8b5cff
+  );
+
+  box-shadow:
+    0 0 10px rgba(0, 217, 255, 0.55),
+    0 0 25px rgba(139, 92, 255, 0.25);
+
+  transform: scaleX(0);
+  transform-origin: left;
+
+  animation: heroUnderline 0.9s ease 1s forwards;
+}
+
+@keyframes heroWordIn {
+  0% {
+    opacity: 0;
+    transform:
+      translateY(45px)
+      rotateX(65deg)
+      scale(0.88);
+    filter: blur(10px);
+  }
+
+  60% {
+    opacity: 1;
+    transform:
+      translateY(-5px)
+      rotateX(-4deg)
+      scale(1.02);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    transform:
+      translateY(0)
+      rotateX(0)
+      scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes connectGradient {
+  0% {
+    background-position: 0% center;
+  }
+
+  50% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: 0% center;
+  }
+}
+
+@keyframes heroUnderline {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero-title .word:hover {
+  transform: translateY(-8px) scale(1.04);
+  filter:
+    brightness(1.2)
+    drop-shadow(0 0 12px rgba(0, 217, 255, 0.3));
+}
 
     .hero-description {
       max-width: 650px;
@@ -1496,11 +1624,11 @@
             NETWORKING & INTERNET TECHNOLOGIES
           </div>
 
-          <h1>
-            Build.
-            <span>Connect.</span>
-            Innovate.
-          </h1>
+ <h1 class="hero-title">
+  <span class="word word-build">Build.</span>
+  <span class="word word-connect">Connect.</span>
+  <span class="word word-innovate">Innovate.</span>
+ </h1>
 
           <p class="hero-description">
             Welcome to NIT TECH IRAA — a digital space for
