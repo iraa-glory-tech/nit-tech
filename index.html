@@ -751,10 +751,10 @@
         With Tech IRAA
       </h1>
 
-      <p>
-        Iraa IT. A digital space for NIT technicians to discover technology,
-        build practical projects, connect with opportunities and glory as 
-        glory former can   explore jobs in networking and internet technologies.
+        <p>
+  Iraa IT is a digital space for NIT technicians to discover technology,
+  build practical projects, connect with opportunities, and explore careers
+  in networking and Internet technologies.
       </p>
 
       <div class="buttons">
@@ -909,7 +909,7 @@
   <section id="projects" class="reveal">
 
     <div class="section-title">
-      <h2>🔎iraa_glory for more info Tech Projects</h2>
+      <h2>🚀 Tech Projects by Iraa Glory</h2>
       <p>Ideas become powerful when you build them.</p>
     </div>
 
@@ -934,8 +934,8 @@
       <div class="project">
         <h3>☁️ Cloud Platform</h3>
         <p>
-          Explore cloud-based services and modern infrastructure
-          for digital organizations.more info text iraa_glory
+         Explore cloud-based services and modern infrastructure
+         for modern digital organizations.
         </p>
       </div>
 
@@ -1287,7 +1287,9 @@ contactForm.addEventListener("submit", function(event) {
     contactForm
   )
 
-  .then(function() {
+  .then(function(response) {
+
+    console.log("SUCCESS!", response.status, response.text);
 
     btnText.textContent = "Message Sent ✓";
     btnLoader.style.display = "none";
@@ -1304,35 +1306,26 @@ contactForm.addEventListener("submit", function(event) {
     }, 2500);
 
   })
- .catch(function(error) {
+
+  .catch(function(error) {
+
     console.error("EMAILJS ERROR:", error);
     console.error("STATUS:", error.status);
     console.error("TEXT:", error.text);
-
-    alert(
-        "EmailJS Error:\n\nStatus: " +
-        error.status +
-        "\n\nMessage: " +
-        error.text
-    );
 
     btnText.textContent = "Try Again";
     btnLoader.style.display = "none";
 
     formStatus.className = "form-status error";
     formStatus.textContent =
-        "❌ Failed to send. Please check the error message.";
+      "❌ Failed to send. Please try again.";
 
     sendBtn.disabled = false;
-});
-
-});
-
-});
 
   });
 
 });
+  
 </script>
 
 </body>
