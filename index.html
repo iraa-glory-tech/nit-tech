@@ -1305,17 +1305,26 @@ contactForm.addEventListener("submit", function(event) {
 
   })
  .catch(function(error) {
+    console.error("EMAILJS ERROR:", error);
+    console.error("STATUS:", error.status);
+    console.error("TEXT:", error.text);
 
-  console.error("EmailJS Error:", error);
+    alert(
+        "EmailJS Error:\n\nStatus: " +
+        error.status +
+        "\n\nMessage: " +
+        error.text
+    );
 
-  btnText.textContent = "Try Again";
-  btnLoader.style.display = "none";
+    btnText.textContent = "Try Again";
+    btnLoader.style.display = "none";
 
-  formStatus.className = "form-status error";
-  formStatus.textContent =
-    "❌ Failed to send. Something went wrong. Please try again.";
+    formStatus.className = "form-status error";
+    formStatus.textContent =
+        "❌ Failed to send. Please check the error message.";
 
-  sendBtn.disabled = false;
+    sendBtn.disabled = false;
+});
 
 });
 
