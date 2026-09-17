@@ -2796,111 +2796,112 @@
        JOB SEARCH
     ======================================================== */
 
-    function initJobSearch() {
+ function initJobSearch() {
 
-      const searchInput =
-        document.getElementById("jobSearch");
+  const searchInput =
+    document.getElementById("jobSearch");
 
-      const categorySelect =
-        document.getElementById("jobCategory");
+  const categorySelect =
+    document.getElementById("jobCategory");
 
-      const jobCards =
-        Array.from(
-          document.querySelectorAll(".job-card")
-        );
+  const jobCards =
+    Array.from(
+      document.querySelectorAll(".job-card")
+    );
 
-      const noJobs =
-        document.getElementById("noJobs");
-
-
-      if (
-        !searchInput ||
-        !categorySelect ||
-        !jobCards.length ||
-        !noJobs
-      ) {
-        return;
-      }
+  const noJobs =
+    document.getElementById("noJobs");
 
 
-      function filterJobs() {
-
-        const search =
-          searchInput.value
-            .trim()
-            .toLowerCase();
-
-
-        const category =
-          categorySelect.value;
-
-
-        let visibleJobs = 0;
+  if (
+    !searchInput ||
+    !categorySelect ||
+    !jobCards.length ||
+    !noJobs
+  ) {
+    console.error("Job search elements could not be found.");
+    return;
+  }
 
 
-        jobCards.forEach(card => {
+  function filterJobs() {
 
-          const cardText =
-            (
-              card.dataset.search ||
-              card.textContent
-            ).toLowerCase();
+    const search =
+      searchInput.value
+        .trim()
+        .toLowerCase();
 
+    const category =
+      categorySelect.value;
 
-          const cardCategory =
-            card.dataset.category;
-
-
-          const matchesSearch =
-            !search ||
-            cardText.includes(search);
+    let visibleJobs = 0;
 
 
-          const matchesCategory =
-            category === "all" ||
-            cardCategory === category;
+    jobCards.forEach(card => {
+
+      const searchText =
+        (
+          card.dataset.search ||
+          card.textContent ||
+          ""
+        ).toLowerCase();
+
+      const cardCategory =
+        card.dataset.category || "";
 
 
-          const visible =
-            matchesSearch &&
-            matchesCategory;
+      const matchesSearch =
+        search === "" ||
+        searchText.includes(search);
 
 
-          card.classList.toggle(
-            "hidden",
-            !visible
-          );
+      const matchesCategory =
+        category === "all" ||
+        cardCategory === category;
 
 
-          if (visible) {
-            visibleJobs++;
-          }
-
-        });
+      const shouldShow =
+        matchesSearch &&
+        matchesCategory;
 
 
-        noJobs.style.display =
-          visibleJobs === 0
-            ? "block"
-            : "none";
-
-      }
-
-
-      searchInput.addEventListener(
-        "input",
-        filterJobs
+      card.classList.toggle(
+        "hidden",
+        !shouldShow
       );
 
 
-      categorySelect.addEventListener(
-        "change",
-        filterJobs
-      );
+      if (shouldShow) {
+        visibleJobs++;
+      }
 
-    }
+    });
 
 
+    noJobs.style.display =
+      visibleJobs === 0
+        ? "block"
+        : "none";
+
+  }
+
+
+  searchInput.addEventListener(
+    "input",
+    filterJobs
+  );
+
+
+  categorySelect.addEventListener(
+    "change",
+    filterJobs
+  );
+
+
+  /* Initial filter */
+  filterJobs();
+
+}
 
     /* ========================================================
        SCROLL REVEAL
@@ -3391,62 +3392,131 @@ function initNITMap() {
   const mapElement =
     document.getElementById("nitMap");
 
-  if (!mapElement) return;
-
-  if (typeof L === "undefined") {
-    console.error("Leaflet could not be loaded.");
+  if (!mapElement) {
+    console.error("Map element #nitMap was not found.");
     return;
   }
 
-  const map =
-    L.map("nitMap").setView(
-      [-1.9441, 30.0619],
-      8
+
+  if (typeof L === "undefined") {
+    console.error(
+      "Leaflet could not be loaded."
     );
 
-  L.tileLayer(
-    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    {
-      attribution:
-        "&copy; OpenStreetMap contributors"
-    }
-  ).addTo(map);
+    mapElement.innerHTML = `
+      <div style="
+        height:100%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#8197a7;
+        text-align:center;
+        padding:20px;
+      ">
+        Map could not be loaded.<br>
+        Please check your internet connection.
+      </div>
+    `;
+
+    return;
+  }
 
 
-  /* Kigali */
-  L.marker([-1.9441, 30.0619])
-    .addTo(map)
-    .bindPopup(`
-      <strong>Kigali</strong><br>
-      NIT & IT opportunities
-    `);
+  try {
+
+    const map =
+      L.map("nitMap", {
+        scrollWheelZoom: true
+      }).setView(
+        [-1.9441, 30.0619],
+        8
+      );
 
 
-  /* Musanze */
-  L.marker([-1.4998, 29.6349])
-    .addTo(map)
-    .bindPopup(`
-      <strong>Musanze</strong><br>
-      Technology opportunities
-    `);
+    L.tileLayer(
+      "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      {
+        maxZoom: 19,
+        attribution:
+          "&copy; OpenStreetMap contributors"
+      }
+    ).addTo(map);
 
 
-  /* Huye */
-  L.marker([-2.5967, 29.7394])
-    .addTo(map)
-    .bindPopup(`
-      <strong>Huye</strong><br>
-      Networking & IT opportunities
-    `);
+    /* Kigali */
+    L.marker([
+      -1.9441,
+      30.0619
+    ])
+      .addTo(map)
+      .bindPopup(`
+        <strong>Kigali</strong><br>
+        NIT & IT opportunities
+      `);
 
 
-  /* Rubavu */
-  L.marker([-1.6773, 29.2604])
-    .addTo(map)
-    .bindPopup(`
-      <strong>Rubavu</strong><br>
-      Technology & networking opportunities
-    `);
+    /* Musanze */
+    L.marker([
+      -1.4998,
+      29.6349
+    ])
+      .addTo(map)
+      .bindPopup(`
+        <strong>Musanze</strong><br>
+        Technology opportunities
+      `);
+
+
+    /* Huye */
+    L.marker([
+      -2.5967,
+      29.7394
+    ])
+      .addTo(map)
+      .bindPopup(`
+        <strong>Huye</strong><br>
+        Networking & IT opportunities
+      `);
+
+
+    /* Rubavu */
+    L.marker([
+      -1.6773,
+      29.2604
+    ])
+      .addTo(map)
+      .bindPopup(`
+        <strong>Rubavu</strong><br>
+        Technology & networking opportunities
+      `);
+
+
+    /* Fix map sizing after page animation */
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 500);
+
+
+    window.addEventListener(
+      "resize",
+      () => {
+        map.invalidateSize();
+      }
+    );
+
+
+    console.log(
+      "NIT Rwanda map initialized successfully."
+    );
+
+  } catch (error) {
+
+    console.error(
+      "NIT map initialization failed:",
+      error
+    );
+
+  }
 
 }
 
