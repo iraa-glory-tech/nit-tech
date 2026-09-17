@@ -24,7 +24,17 @@
     src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
     defer>
   </script>
+<!-- Leaflet Map -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
 
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  defer>
+</script>
+  
   <style>
     /* =========================================================
        RESET
@@ -1003,7 +1013,46 @@
     .hidden {
       display: none !important;
     }
+/* =========================================================
+   INTERACTIVE MAP
+========================================================= */
 
+.map-container {
+  width: 100%;
+  height: 430px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 217, 255, 0.15);
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #071426;
+}
+
+
+/* JOB ACTIONS */
+
+.job-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.job-location {
+  color: #8197a7;
+  font-size: 0.78rem;
+}
+
+.job-view {
+  min-height: 40px;
+  padding: 0 14px;
+  font-size: 0.75rem;
+}
 
     /* =========================================================
        PROJECTS
@@ -2163,7 +2212,26 @@
       </div>
 
     </section>
+ <!-- MAP SECTION -->
+    <section id="map">
+      <div class="container">
 
+        <div class="section-heading reveal">
+          <span class="section-label">Locations</span>
+
+          <h2>
+            Explore tech opportunities on the map.
+          </h2>
+
+          <p>
+            Discover technology-related locations and opportunities around Rwanda.
+          </p>
+        </div>
+
+        <div id="nitMap" class="map-container reveal"></div>
+
+      </div>
+    </section>
 
 
     <!-- =====================================================
@@ -3313,8 +3381,80 @@
 
     }
 
-  </script>
+  
+/* ========================================================
+   LEAFLET MAP
+======================================================== */
 
+function initNITMap() {
+
+  const mapElement =
+    document.getElementById("nitMap");
+
+  if (!mapElement) return;
+
+  if (typeof L === "undefined") {
+    console.error("Leaflet could not be loaded.");
+    return;
+  }
+
+  const map =
+    L.map("nitMap").setView(
+      [-1.9441, 30.0619],
+      8
+    );
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution:
+        "&copy; OpenStreetMap contributors"
+    }
+  ).addTo(map);
+
+
+  /* Kigali */
+  L.marker([-1.9441, 30.0619])
+    .addTo(map)
+    .bindPopup(`
+      <strong>Kigali</strong><br>
+      NIT & IT opportunities
+    `);
+
+
+  /* Musanze */
+  L.marker([-1.4998, 29.6349])
+    .addTo(map)
+    .bindPopup(`
+      <strong>Musanze</strong><br>
+      Technology opportunities
+    `);
+
+
+  /* Huye */
+  L.marker([-2.5967, 29.7394])
+    .addTo(map)
+    .bindPopup(`
+      <strong>Huye</strong><br>
+      Networking & IT opportunities
+    `);
+
+
+  /* Rubavu */
+  L.marker([-1.6773, 29.2604])
+    .addTo(map)
+    .bindPopup(`
+      <strong>Rubavu</strong><br>
+      Technology & networking opportunities
+    `);
+
+/* ========================================================
+   START MAP
+======================================================== */
+
+initNITMap();
+
+</script>
 </body>
 </html>
 
